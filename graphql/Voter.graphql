@@ -1,0 +1,46 @@
+type Voter {
+    id: ID!
+    uuid: ID!
+    name: String
+    phone: String
+    gender: String
+    age: String
+    vin: String
+    created_at: DateTime!
+    updated_at: DateTime! 
+}
+
+extend type Mutation {
+    createVoter(
+    name: String! @rules(apply: ["required"])
+    phone: String
+    gender: String
+    age: String
+    vin: String
+    ): Voter @create
+
+    updateVoter(
+    id: ID!
+    uuid: ID @rules(apply: ["required", "exists:voters,uuid"])
+    name: String
+    phone: String
+    gender: String
+    age: String
+    vin: String
+    ): Voter @update
+
+    deleteVoter(
+    id: ID! @rules(apply: ["required", "exists:voters,id"])
+    ): Voter @delete
+}
+
+extend type Query {
+    getVoter(
+    uuid: ID! @eq @rules(apply: ["required", "exists:voters,uuid"])
+    ): Voter @find
+
+    allVoters(
+    first: Int = 25
+    page: Int = 1
+    ): [Voter] @paginate
+}

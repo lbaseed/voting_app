@@ -1,0 +1,10 @@
+type ElectionDetail {
+    uuid: ID!
+    candidate: Candidate
+    total_votes: Int
+    position: String
+    winner: String
+    zone: String
+    description: String
+}
+

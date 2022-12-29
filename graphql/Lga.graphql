@@ -1,0 +1,35 @@
+type Lga {
+    id: ID!
+    uuid: ID!
+    name: String
+    inec_ref: String
+    wards: [Ward]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    createLga(
+    name: String! @rules(apply: ["requried"])
+    inec_ref: String
+    ): Lga @create
+
+    updateLga(
+    id: ID!
+    uuid: ID @rules(apply: ["required", "exists:lgas,uuid"])
+    name: String
+    inec_ref: String
+    ): Lga @update
+
+    deleteLga(
+    id: ID! @rules(apply: ["required", "exists:lgas,id"])
+    ): Lga @delete
+}
+
+extend type Query {
+    getLga(
+    uuid: ID! @eq @rules(apply: ["required", "exists:lgas,uuid"])
+    ): Lga @find
+
+    allLgas: [Lga] @all
+}

@@ -1,0 +1,28 @@
+type VoteCount {
+    id: ID!
+    uuid: ID!
+    votes: Int
+    politicalParty: PoliticalParty
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    createVoteCount(
+    election_id: ID!
+    polling_unit_id: ID!
+    political_party_id: ID!
+    voting_id: ID!
+    votes: Int!
+    ): VoteCount @create
+
+    updateVoteCount(
+    id: ID!
+    votes: Int
+    ): VoteCount @update
+
+    deleteVoteCount(
+    id: ID!
+    ): VoteCount @delete
+}
+

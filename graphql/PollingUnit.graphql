@@ -1,0 +1,30 @@
+type PollingUnit {
+    id: ID! 
+    uuid: ID!
+    name: String
+    registered_voters: Int
+    inec_ref: String
+    voteCount: [VoteCount]
+    ward: Ward
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    cretePollingUnit(
+    name: String! @rules(apply: ["required"])
+    registered_voters: Int
+    inec_ref: String
+    ): PollingUnit @create
+}
+
+extend type Query {
+    getPollingUnit(
+    uuid: ID! @eq @rules(apply: ["required", "exists:polling_units,uuid"])
+    ): PollingUnit @find
+
+    allPollingUnits(
+    first: Int = 25
+    page: Int = 1
+    ): [PollingUnit] @paginate
+}

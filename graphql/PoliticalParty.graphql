@@ -1,0 +1,39 @@
+type PoliticalParty {
+    id: ID!
+    uuid: ID!
+    name: String
+    logo: String
+    abreviation: String
+    electionDetail: ElectionDetail
+    candidates: [Candidate]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    createPoliticalParty(
+    name: String! @rules(apply: ["required"])
+    logo: String
+    abreviation: String! @rules(apply: ["required"])
+    ): PoliticalParty @create
+
+    updatePoliticalParty(
+    id: ID!
+    uuid: ID! @rules(apply: ["required", "exists:political_parties,uuid"])
+    name: String
+    logo: String
+    abreviation: String
+    ): PoliticalParty @update
+
+    deletePoliticalParty(
+    id: ID! @rules(apply: ["required", "exists:political_parties,id"])
+    ): PoliticalParty @delete
+}
+
+extend type Query {
+    getPoliticalParty(
+    uuid: ID! @eq @rules(apply: ["required", "exists:political_parties,uuid"])
+    ): PoliticalParty @find
+
+    allPoliticalParties: [PoliticalParty] @all
+}

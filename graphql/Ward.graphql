@@ -1,0 +1,36 @@
+type Ward {
+    id: ID!
+    uuid: ID!
+    name: String
+    inec_ref: String
+    pollingUnits: [PollingUnit]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    createWard(
+    name: String! @rules(apply: ["required"])
+    inec_ref: String
+    ): Ward @create
+
+    updateWard(
+    id: ID!
+    uuid: ID! @rules(apply: ["required", "exists:wards,uuid"])
+    ): Ward @update
+
+    deleteWard(
+    id: ID!
+    ): Ward @delete
+}
+
+extend type Query {
+    getWard(
+    uuid: ID! @eq @rules(apply: ["required", "exists:wards,uuid"])
+    ): Ward @find
+
+    allWards(
+    first: Int = 25
+    page: Int = 1
+    ): [Ward] @paginate
+}

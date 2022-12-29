@@ -1,0 +1,56 @@
+type Voting {
+    id: ID!
+    uuid: ID!
+    election: ID
+    registered_voters: Int
+    accredited_voters: Int
+    votes_casted: Int
+    valid_votes: Int
+    invalid_votes: Int
+    date: DateTime
+    election: Election
+    user: User
+    pollingUnit: PollingUnit
+    voteCounts: [VoteCount]
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+extend type Mutation {
+    createVoting(
+    election_id: ID!
+    polling_unit_id: Int!
+    registered_voters: Int
+    accredited_voters: Int
+    votes_casted: Int
+    valid_votes: Int
+    ivalid_votes: Int
+    date: DateTime
+    ): Voting @create
+
+    updateVoting(
+    id: ID!
+    uuid: ID! @rules(apply: ["required", "exists:votings,uuid"])
+    registered_voters: Int
+    accredited_voters: Int
+    votes_casted: Int
+    valid_votes: Int
+    ivalid_votes: Int
+    date: DateTime
+    ): Voting @update
+
+    deleteVoting(
+    id: ID!
+    ): Voting @delete
+}
+
+extend type Query {
+    getVoting(
+    uuid: ID! @eq @rules(apply: ["required", "exists:votings,uuid"])
+    ): Voting @find
+
+    allVotings(
+    first: Int = 25
+    page: Int = 1
+    ): [Voting] @paginate
+}

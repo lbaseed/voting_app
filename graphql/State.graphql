@@ -1,0 +1,35 @@
+type State {
+    id: ID!
+    uuid: ID!
+    name: String
+    inec_ref: String
+    lgas: [Lga]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    createState(
+    name: String! @rules(apply: ["required"])
+    inec_ref: String
+    ): State @create
+
+    updateState(
+    id: ID!
+    uuid: ID! @rules(apply: ["required", "exists:states,uuid"])
+    name: String
+    inec_ref: String
+    ): State @update
+
+    deleteState(
+    id: ID! @rules(apply: ["required", "exists:state:id"])
+    ): State @delete
+}
+
+extend type Query {
+    getState(
+    uuid: ID! @eq @rules(apply: ["required", "exists:states,uuid"])
+    ): State @find
+
+    allStates: [State] @all
+}

@@ -1,0 +1,52 @@
+type User {
+    id: ID!
+    uuid: ID!
+    name: String
+    email: String
+    password: String
+    clrs: String
+    photo: String
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+enum Clearance {
+    Admin @enum(value: "15")
+    CouncilMember @enum(value: "6")
+    LGACoordinator @enum(value: "4")
+    WardCoordinator @enum (value: "3")
+    Agent @enum(value: "2")
+}
+
+extend type Mutation {
+    createUser(
+    name: String! @rules(apply: ["required"])
+    email: String! @rules(apply: ["required"])
+    clrs: Clearance
+    photo: String
+    ): User @create
+
+    updateUser(
+    id: ID!
+    uuid: ID! @rules(apply: ["required", "exists:users,uuid"])
+    name: String
+    email: String
+    clrs: Clearance
+    photo: String
+    ): User @update
+
+    deleteUser(
+    id: ID! @rules(apply: ["required", "exists:users,id"])
+    ): User @delete
+}
+
+extend type Query {
+    getUser(
+    uuid: ID! @eq @rules(apply: ["required", "exists:users,uuid"])
+    ): User @find
+
+    allUsers(
+    first: Int = 25
+    page: Int = 1
+    ): [User] @paginate
+}

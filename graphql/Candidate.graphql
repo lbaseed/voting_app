@@ -1,0 +1,43 @@
+type Candidate {
+    id: ID
+    uuid: ID!
+    first_name: String 
+    last_name: String
+    gender: String
+    photo: String
+    age: Int
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    createCandidate(
+    first_name: String! @rules(apply: ["required"])
+    last_name: String! @rules(apply: ["required"])
+    gender: String! @rules(apply: ["required"])
+    photo: String
+    age: Int
+    ): Candidate @create
+
+    updateCandidate(
+    id: ID! @eq
+    uuid: ID! @rules(apply: ["requried", "exists:candidates,uuid"])
+    first_name: String
+    last_name: String
+    gender: String
+    photo: String
+    age: Int
+    ): Candidate @update
+
+    deleteCandidate(
+    id: ID! @rules(apply: ["requried", "exists:candidates,id"])
+    ): Candidate @delete
+}
+
+extend type Query {
+    getCandidate(
+    uuid: ID! @eq @rules(apply: ["requried"])
+    ): Candidate @find
+
+    allCandidates: [Candidate] @all
+}

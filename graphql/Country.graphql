@@ -1,0 +1,32 @@
+type Country {
+    id: ID
+    uuid: ID
+    name: String
+    states: [State]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation{
+    createCountry(
+    name: String! @rules(apply: ["required"])
+    ): Country @create
+
+    updateCountry(
+    id: ID!
+    uuid: ID! @rules(apply: ["required", "exists:countries,uuid"])
+    name: String
+    ): Country @update
+
+    deleteCountry(
+    id: ID! @rules(apply: ["required", "exists:countries,id"])
+    ): Country @delete
+}
+
+extend type Query {
+    getCountry(
+    uuid: ID! @eq @rules(apply: ["required", "exists:countries,uuid"])
+    ): Country @find
+
+    allCountries: [Country] @all
+}

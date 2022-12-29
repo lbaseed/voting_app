@@ -1,0 +1,47 @@
+type Election {
+    id: ID!
+    uuid:ID!
+    name: String
+    active: Boolean
+    year: Int
+    type: String
+    votings: [Voting]
+    electionDetails: [ElectionDetail]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+enum ElectionType {
+    Primary @enum (value: "primary")
+    Seconday @enum (value: "secondary")
+}
+
+extend type Mutation {
+    createElection(
+    name: String! @rules(apply: ["required"])
+    active: Boolean! @rules(apply: ["required"])
+    year: Int! @rules(apply: ["required"])
+    type: ElectionType
+    ): Election @create
+
+    updateElection(
+    id: ID!
+    uuid: ID! @rules(apply: ["required", "exists:elections,uuid"])
+    name: String
+    active: Boolean
+    year: Int
+    type: String
+    ): Election @update
+
+    deleteElection(
+    id: ID! @rules(apply: ["required", "exists:elections,id"])
+    ): Election @delete
+}
+
+extend type Query {
+    getElection(
+    uuid: ID @eq @rules(apply: ["required", "exists:elections,uuid"])
+    ): Election @find
+
+    allElections: [Election] @all
+}
