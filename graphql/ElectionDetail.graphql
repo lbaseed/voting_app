@@ -6,5 +6,19 @@ type ElectionDetail {
     winner: String
     zone: String
     description: String
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Mutation {
+    createElectionDetail(
+    election_id: ID!
+    political_party_id: ID!
+    total_votes: Int
+    position: String
+    winner: String
+    zone: String
+    description: String
+    ): ElectionDetail @create
 }
 
