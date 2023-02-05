@@ -31,5 +31,7 @@ extend type Query {
     uuid: ID! @eq @rules(apply: ["required", "exists:lgas,uuid"])
     ): Lga @find
 
-    allLgas: [Lga] @all
+    allLgas(
+    state_id: ID! @eq @rules(apply: ["required", "exists:states,id"])
+    ): [Lga] @all
 }

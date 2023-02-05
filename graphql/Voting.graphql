@@ -1,7 +1,6 @@
 type Voting {
     id: ID!
     uuid: ID!
-    election: ID
     registered_voters: Int
     accredited_voters: Int
     votes_casted: Int

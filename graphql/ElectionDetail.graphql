@@ -1,4 +1,5 @@
 type ElectionDetail {
+    id: ID! 
     uuid: ID!
     candidate: Candidate
     total_votes: Int

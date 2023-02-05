@@ -24,6 +24,7 @@ extend type Query {
     ): PollingUnit @find
 
     allPollingUnits(
+    ward_id: ID! @eq @rules(apply: ["required", "exists:wards,id"])
     first: Int = 25
     page: Int = 1
     ): [PollingUnit] @paginate

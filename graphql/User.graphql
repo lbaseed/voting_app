@@ -19,14 +19,15 @@ enum Clearance {
 }
 
 extend type Mutation {
-    createUser(
+    createAgent(
     name: String! @rules(apply: ["required"])
     email: String! @rules(apply: ["required"])
     clrs: Clearance
     photo: String
+    password: String
     ): User @create
 
-    updateUser(
+    updateAgent(
     id: ID!
     uuid: ID! @rules(apply: ["required", "exists:users,uuid"])
     name: String
@@ -35,17 +36,17 @@ extend type Mutation {
     photo: String
     ): User @update
 
-    deleteUser(
+    deleteAgent(
     id: ID! @rules(apply: ["required", "exists:users,id"])
     ): User @delete
 }
 
 extend type Query {
-    getUser(
+    getAgent(
     uuid: ID! @eq @rules(apply: ["required", "exists:users,uuid"])
     ): User @find
 
-    allUsers(
+    allAgents(
     first: Int = 25
     page: Int = 1
     ): [User] @paginate
