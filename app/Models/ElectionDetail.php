@@ -34,4 +34,9 @@ class ElectionDetail extends Model
     {
         return $this->belongsTo(Candidate::class);
     }
+
+    public function politicalParty()
+    {
+        return $this->belongsTo(PoliticalParty::class);
+    }
 }

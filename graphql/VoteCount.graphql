@@ -10,15 +10,15 @@ type VoteCount {
 extend type Mutation {
     createVoteCount(
     election_id: ID!
+    voting_id: ID!
     polling_unit_id: ID!
     political_party_id: ID!
-    voting_id: ID!
-    votes: Int!
+    votes: String!
     ): VoteCount @create
 
     updateVoteCount(
     id: ID!
-    votes: Int
+    votes: String
     ): VoteCount @update
 
     deleteVoteCount(

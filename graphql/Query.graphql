@@ -1,0 +1,15 @@
+type TotalRegisteredVoters{
+    totalVoters: String
+    totalPollingUnits: String
+}
+
+type TotalLgaVotes{
+    totalVotes: String
+
+}
+
+
+extend type Query{
+    getTotalRegisteredVoters: TotalRegisteredVoters
+}
+

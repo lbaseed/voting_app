@@ -25,6 +25,7 @@ class Lga extends Model
         'inec_ref'
     ];
 
+    protected $appends = ['total_votes'];
     public function state()
     {
         return $this->hasOne(State::class);
@@ -33,5 +34,12 @@ class Lga extends Model
     public function wards()
     {
         return $this->hasMany(Ward::class);
+    }
+
+    public function getTotalVotesAttribute()
+    {
+        $wards = $this->wards();
+        $pollingUnits = $wards->pollingUnits()->sum('registered_voters');
+        return $pollingUnits;
     }
 }

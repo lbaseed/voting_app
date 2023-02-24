@@ -15,27 +15,36 @@ type Voting {
     updated_at: DateTime
 }
 
+input VoteCountInput {
+    election_id: ID!
+    polling_unit_id: ID!
+    political_party_id: ID!
+    votes: String!
+}
+
 extend type Mutation {
     createVoting(
     election_id: ID!
-    polling_unit_id: Int!
-    registered_voters: Int
-    accredited_voters: Int
-    votes_casted: Int
-    valid_votes: Int
-    ivalid_votes: Int
+    polling_unit_id: ID!
+    registered_voters: String
+    accredited_voters: String
+    votes_casted: String
+    valid_votes: String
+    invalid_votes: String
     date: DateTime
-    ): Voting @create
+    vote_counts: [VoteCountInput]
+    ): Voting
 
     updateVoting(
     id: ID!
     uuid: ID! @rules(apply: ["required", "exists:votings,uuid"])
-    registered_voters: Int
-    accredited_voters: Int
-    votes_casted: Int
-    valid_votes: Int
-    ivalid_votes: Int
+    registered_voters: String
+    accredited_voters: String
+    votes_casted: String
+    valid_votes: String
+    invalid_votes: String
     date: DateTime
+    image: String
     ): Voting @update
 
     deleteVoting(
@@ -49,7 +58,7 @@ extend type Query {
     ): Voting @find
 
     allVotings(
-    first: Int = 25
+    first: String = 25
     page: Int = 1
     ): [Voting] @paginate
 }

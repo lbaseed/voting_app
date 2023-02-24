@@ -35,4 +35,9 @@ class PollingUnit extends Model
     {
         return $this->belongsTo(Ward::class);
     }
+
+    public function getRegisteredVoters ()
+    {
+        return $this->sum('registered_voters');
+    }
 }

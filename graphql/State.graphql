@@ -10,6 +10,7 @@ type State {
 
 extend type Mutation {
     createState(
+    country_id: ID! @rules(apply: ["requried"])
     name: String! @rules(apply: ["required"])
     inec_ref: String
     ): State @create
@@ -18,6 +19,7 @@ extend type Mutation {
     id: ID!
     uuid: ID! @rules(apply: ["required", "exists:states,uuid"])
     name: String
+    country_id: ID
     inec_ref: String
     ): State @update
 

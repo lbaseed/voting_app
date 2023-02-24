@@ -10,6 +10,7 @@ type Ward {
 
 extend type Mutation {
     createWard(
+    lga_id: ID! @rules(apply: ["requried"])
     name: String! @rules(apply: ["required"])
     inec_ref: String
     ): Ward @create
@@ -17,6 +18,7 @@ extend type Mutation {
     updateWard(
     id: ID!
     uuid: ID! @rules(apply: ["required", "exists:wards,uuid"])
+    lga_id: ID
     ): Ward @update
 
     deleteWard(

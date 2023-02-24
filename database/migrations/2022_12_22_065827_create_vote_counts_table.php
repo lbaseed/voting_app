@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('polling_unit_id');
             $table->foreignId('voting_id');
             $table->foreignId('political_party_id');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
             $table->integer('votes');
             $table->timestamps();
         });

@@ -12,6 +12,7 @@ type PollingUnit {
 
 extend type Mutation {
     cretePollingUnit(
+    ward_id: ID
     name: String! @rules(apply: ["required"])
     registered_voters: Int
     inec_ref: String

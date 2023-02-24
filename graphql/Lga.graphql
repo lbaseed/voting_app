@@ -4,13 +4,15 @@ type Lga {
     name: String
     inec_ref: String
     wards: [Ward]
+    total_votes: String
     created_at: DateTime!
     updated_at: DateTime!
 }
 
 extend type Mutation {
     createLga(
-    name: String! @rules(apply: ["requried"])
+    state_id: ID! @rules(apply: ["required"])
+    name: String! @rules(apply: ["required"])
     inec_ref: String
     ): Lga @create
 
@@ -19,6 +21,7 @@ extend type Mutation {
     uuid: ID @rules(apply: ["required", "exists:lgas,uuid"])
     name: String
     inec_ref: String
+    state_id: ID
     ): Lga @update
 
     deleteLga(
