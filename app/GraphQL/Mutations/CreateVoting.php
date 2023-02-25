@@ -14,14 +14,24 @@ final class CreateVoting
      */
     public function __invoke($_, array $args)
     {
-        $voting = Voting::create($args);
-
-        if (array_key_exists('vote_counts', $args)) {
-            foreach ($args["vote_counts"] as $key => $voteCount) {
-                $voteCount['voting_id'] = $voting->id;
-                $storeCount = VoteCount::create($voteCount);
-                $electionDetail = ElectionDetail::firstWhere('political_party_id', $storeCount->political_party_id);
-                $electionDetail->increment('total_votes', $storeCount->votes);
+        $voting = Voting::firstWhere('polling_unit_id', $args['polling_unit_id']);
+        if ($voting)
+        {
+            if (array_key_exists('vote_counts', $args)) {
+                foreach ($args["vote_counts"] as $key => $voteCount) {
+                    $voteCount['voting_id'] = $voting->id;
+                    $storeCount = VoteCount::create($voteCount);
+                }
+            }
+        }else {
+            $voting = Voting::create($args);
+            if (array_key_exists('vote_counts', $args)) {
+                foreach ($args["vote_counts"] as $key => $voteCount) {
+                    $voteCount['voting_id'] = $voting->id;
+                    $storeCount = VoteCount::create($voteCount);
+                    $electionDetail = ElectionDetail::firstWhere('political_party_id', $storeCount->political_party_id);
+                    $electionDetail->increment('total_votes', $storeCount->votes);
+                }
             }
         }
 
